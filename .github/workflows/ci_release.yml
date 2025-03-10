@@ -15,10 +15,6 @@ on:
         type: string
         description: Arquivos/Artefatos da versão final 
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   GerarVersao:
     runs-on: ubuntu-latest

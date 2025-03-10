@@ -2,17 +2,12 @@ name: CI - Release
 run-name: CI ${{ inputs.versao }} disparada por ${{ github.actor }}
 
 on: 
-  workflow_dispatch:
+  workflow_call:
     inputs:
       versao:
-        type: choice
-        description: 'Tipo de build'     
+        type: string
+        description: Versão do artefato
         required: true
-        default: 'minor'
-        options:
-        - patch
-        - minor
-        - major
       node_compilar_pastas:
         type: string
         description: Pastas do projeto node

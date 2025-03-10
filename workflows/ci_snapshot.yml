@@ -1,0 +1,76 @@
+name: CI - Snapshot
+run-name: CI snapshot disparada por ${{ github.actor }}
+
+on: 
+  workflow_dispatch:
+    inputs:
+      versao:
+        type: string
+        description: Versão do artefato
+        required: true
+      node_versao:
+        type: string
+        description: Versão do node
+      node_compilar_pastas:
+        type: string
+        description: Pastas do projeto node
+      node_artefatos:
+        type: string
+        description: Arquivos/Artefatos da versão final 
+
+jobs:
+  GerarVersao:
+    runs-on: ubuntu-latest
+    permissions: read-all
+    outputs:
+      versao: ${{ steps.versao.outputs.versao }}
+    steps:
+      - name: Checkout Pipeline Files
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/actions_git
+          sparse-checkout: .github
+          path: scripts
+
+      - name: Coleta a próxima versão
+        id: versao
+        uses: ./scripts/.github/actions/proxima_versao
+
+  Build:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: GerarVersao
+    if: "${{ inputs.node_versao != '' }}"
+    steps:
+      - name: Baixando repositório
+        uses: actions/checkout@v4
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - name: Trocando versão do node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_versao }}
+      - name: Build Backend
+        run: |
+          cd ./backend 
+          npm install
+          npm run build
+      - name: Build Frontend
+        run: |
+          cd ./frontend
+          npm install
+          npm run build
+      - name: Compacta(Zip) as pastas
+        run: |
+          mkdir artefato
+          zip -r artefato.zip -r ${{ inputs.node_artefatos }}
+          ls artefato
+      - name: Criar Versão / Release e Tag
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: Release ${{ needs.GerarVersao.outputs.versao }}
+          tag_name: ${{needs.GerarVersao.outputs.versao}}
+          files: artefato.zip

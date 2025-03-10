@@ -1,0 +1,51 @@
+name: "Gera o número da próxima versão (path, minor, major ou snapshot)"
+
+outputs:
+  versao:
+    description: "Versão calculada"
+    value: ${{ steps.versao.outputs.versao }}
+
+runs:      
+  using: "composite"
+  steps:
+#    - name: Baixando repositório
+#      uses: actions/checkout@v4
+#    - name: List files in the repository
+#      run: |
+#        ls ${{ github.workspace }}
+
+    - name: Coleta última versão
+      id: ultimatag
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      with:
+        fallback: 0.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Número próximas versões
+      id: versoes
+      uses: "WyriHaximus/github-action-next-semvers@v1"
+      with:
+        version: ${{ steps.ultimatag.outputs.tag }}
+
+    - name: Versão
+      id: versao
+      run: |
+        versao=$(
+          case "${{ inputs.versao }}" in
+            ("patch") echo "${{ steps.versoes.outputs.patch }}" ;;
+            ("minor") echo "${{ steps.versoes.outputs.minor }}" ;;
+            ("major") echo "${{ steps.versoes.outputs.major }}" ;;
+            ("replace_last") echo "${{ steps.ultimatag.outputs.tag }}" ;;
+            ("snapshot") echo "${{steps.versoes.outputs.minor }}.snapshot" ;;
+            (*) echo "${{steps.versoes.outputs.minor }}.snapshot" ;;
+          esac)
+        echo "--- Versões ---"
+        echo "snapshot=${{steps.versoes.outputs.minor }}.snapshot"
+        echo "patch=${{ steps.versoes.outputs.patch }}"
+        echo "minor=${{ steps.versoes.outputs.minor }}"
+        echo "major=${{ steps.versoes.outputs.major }}"
+        echo "replace_last=${{ steps.ultimatag.outputs.tag }}"
+        echo "--- Versão escolhida ---"
+        echo "versao=${versao}"
+        echo "versao=${versao}" >> "$GITHUB_OUTPUT"

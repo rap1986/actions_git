@@ -1,0 +1,39 @@
+name: CI - Release
+run-name: CI ${{ inputs.versao }} disparada por ${{ github.actor }}
+
+on: 
+  workflow_dispatch:
+    inputs:
+      versao:
+        type: choice
+        description: 'Tipo de build'     
+        required: true
+        default: 'minor'
+        options:
+        - patch
+        - minor
+        - major
+      node_compilar_pastas:
+        type: string
+        description: Pastas do projeto node
+      node_artefatos:
+        type: string
+        description: Arquivos/Artefatos da versão final 
+
+jobs:
+  GerarVersao:
+    runs-on: ubuntu-latest
+    permissions: read-all
+    outputs:
+      versao: ${{ steps.versao.outputs.versao }}
+    steps:
+      - name: Checkout Pipeline Files
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/actions_git
+          sparse-checkout: .github
+          path: scripts
+
+      - name: Coleta a próxima versão
+        id: versao
+        uses: ./scripts/.github/actions/proxima_versao

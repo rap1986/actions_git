@@ -18,6 +18,9 @@ on:
         type: string
         description: Arquivos/Artefatos da versão final 
 
+permissions:
+  contents: write
+
 jobs:
   GerarVersao:
     runs-on: ubuntu-latest

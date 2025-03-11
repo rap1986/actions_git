@@ -36,7 +36,7 @@ jobs:
 
       - name: Lista os arquivos do repositória para conferência
         run: |
-          ls ${{ github.workspace }}\build
+          ls ${{ github.workspace }}/build
 
       - name: Baixando o repositório com os scripts
         uses: actions/checkout@v4

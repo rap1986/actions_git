@@ -28,10 +28,21 @@ jobs:
     outputs:
       versao: ${{ steps.versao.outputs.versao }}
     steps:
-      - name: Checkout Pipeline Files
+      - name: Baixando o repositório
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: build
+
+      - name: Lista os arquivos do repositória para conferência
+        run: |
+          ls ${{ github.workspace }}\build
+
+      - name: Baixando o repositório com os scripts
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/actions_git
+          token: ${{ secrets.GITHUB_TOKEN }}
           sparse-checkout: .github
           path: scripts
 
@@ -47,9 +58,11 @@ jobs:
     steps:
       - name: Baixando repositório
         uses: actions/checkout@v4
+
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}\build
+
       - name: Trocando versão do node
         uses: actions/setup-node@v4
         with:

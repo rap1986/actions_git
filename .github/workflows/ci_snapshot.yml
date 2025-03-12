@@ -43,7 +43,6 @@ jobs:
         with:
           repository: ${{ github.repository_owner }}/actions_git
           token: ${{ secrets.GITHUB_TOKEN }}
-          sparse-checkout: .github
           path: scripts
 
       - name: Coleta a próxima versão

@@ -52,6 +52,7 @@ jobs:
       - name: Coleta a próxima versão
         id: versao
         uses: ./scripts/.github/actions/proxima_versao
+        with: ${{ secrets.GITHUB_TOKEN }}
 
   Build:
     runs-on: ubuntu-latest

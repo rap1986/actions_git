@@ -1,5 +1,10 @@
 name: "Gera o número da próxima versão (path, minor, major ou snapshot)"
 
+inputs:
+  token:
+    description: "Token de acesso ao repositório"
+    required: true
+
 outputs:
   versao:
     description: "Versão calculada"
@@ -20,7 +25,7 @@ runs:
       with:
         fallback: 0.0.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}
 
     - name: Número próximas versões
       id: versoes

@@ -34,17 +34,20 @@ jobs:
           repository: ${{ github.repository }}
           path: build
 
-      - name: Lista os arquivos do repositória para conferência
+      - name: Lista os arquivos para conferência
         run: |
           ls ${{ github.workspace }}/build
 
       - name: Baixando o repositório com os scripts
         uses: actions/checkout@v4
         with:
-          #repository: ${{ github.repository_owner }}/actions_git
           repository: rap1986/actions_git
-          token: ${{ secrets.PIPELINE_TOKEN }}
+          #token: ${{ secrets.PIPELINE_TOKEN }}
           path: scripts
+
+      - name: Lista os arquivos para conferência
+        run: |
+          ls ${{ github.workspace }}/scripts
 
       - name: Coleta a próxima versão
         id: versao

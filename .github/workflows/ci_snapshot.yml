@@ -71,21 +71,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_versao }}
+          
       - name: Build Backend
+        shell: bash
         run: |
           cd ./backend 
           npm install
           npm run build
+
       - name: Build Frontend
+        shell: bash
         run: |
           cd ./frontend
           npm install
           npm run build
+
       - name: Compacta(Zip) as pastas
+        shell: bash
         run: |
           mkdir artefato
           zip -r artefato.zip -r ${{ inputs.node_artefatos }}
           ls artefato
+
       - name: Criar Versão / Release e Tag
         uses: softprops/action-gh-release@v2
         env:

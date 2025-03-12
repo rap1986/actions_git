@@ -35,6 +35,7 @@ runs:
 
     - name: Versão
       id: versao
+      shell: bash
       run: |
         versao=$(
           case "${{ inputs.versao }}" in

@@ -41,8 +41,9 @@ jobs:
       - name: Baixando o repositório com os scripts
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner }}/actions_git
-          token: ${{ secrets.GITHUB_TOKEN }}
+          #repository: ${{ github.repository_owner }}/actions_git
+          repository: rap1986/actions_git
+          token: ${{ secrets.PIPELINE_TOKEN }}
           path: scripts
 
       - name: Coleta a próxima versão

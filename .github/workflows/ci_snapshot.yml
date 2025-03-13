@@ -78,10 +78,9 @@ jobs:
 
       - name: Build o projeto
         id: versao
-        uses: ./scripts/.github/actions/proxima_versao
+        uses: ./scripts/.github/actions/compilar
         with:
           node_versao: ${{ inputs.node_versao }}
-          node_artefatos: ${{ inputs.node_artefatos }}
 
       - name: Compacta(Zip) as pastas
         shell: bash

@@ -22,7 +22,7 @@ runs:
         pastas="${{ inputs.node_compilar_pastas }}"
         pastas=${pastas//;/ } 
         for pasta in $pastas ; do 
-          cd ${{ github.workspace }}/build ;
-          npm install
-          npm run build
+          cd ${{ github.workspace }}/build/$pasta ;
+          npm install ;
+          npm run build ;
         done

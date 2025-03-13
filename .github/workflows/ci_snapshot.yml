@@ -7,7 +7,6 @@ on:
       tipo_versao:
         type: string
         description: Versão do artefato (patch, minor, major, snapshot)
-        required: true
       node_versao:
         type: string
         description: Versão do node

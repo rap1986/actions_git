@@ -1,0 +1,32 @@
+name: "Subir artefato"
+
+inputs:
+  node_artefatos:
+    description: Arquivos/Artefatos da versão final
+    required: true
+  token:
+    description: "Token de acesso ao repositório"
+    required: true
+  versao:
+    description: "Versão calculada"
+    required: true
+
+
+runs:      
+  using: "composite"
+  steps:
+    - name: Compacta(Zip) as pastas
+      shell: bash
+      run: |
+        mkdir artefato
+        zip -r artefato.zip -r ${{ inputs.node_artefatos }}
+        ls artefato
+
+    - name: Criar Versão / Release e Tag
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+      with:
+        body: Release ${{ inputs.versao }}
+        tag_name: ${{inputs.versao}}
+        files: artefato.zip

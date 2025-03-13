@@ -71,25 +71,16 @@ jobs:
           #token: ${{ secrets.PIPELINE_TOKEN }}
           path: scripts
 
-      - name: Build o projeto
+      - name: Compila o projeto
         id: versao
         uses: ./scripts/.github/actions/compilar
         with:
           node_versao: ${{ inputs.node_versao }}
           node_compilar_pastas: ${{ inputs.node_compilar_pastas }}
 
-      - name: Compacta(Zip) as pastas
-        shell: bash
-        run: |
-          mkdir artefato
-          zip -r artefato.zip -r ${{ inputs.node_artefatos }}
-          ls artefato
-
-      - name: Criar Versão / Release e Tag
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Subir artefato
+        id: artefato
+        uses: ./scripts/.github/actions/subir_artefato
         with:
-          body: Release ${{ needs.GerarVersao.outputs.versao }}
-          tag_name: ${{needs.GerarVersao.outputs.versao}}
-          files: artefato.zip
+          node_artefatos: ${{ inputs.node_artefatos }}
+          token: ${{ secrets.GITHUB_TOKEN }}

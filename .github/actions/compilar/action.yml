@@ -1,4 +1,4 @@
-name: "Build o projeto"
+name: "Compila o projeto"
 
 inputs:
   node_versao:
@@ -14,7 +14,7 @@ runs:
     - name: Trocando versão do node
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ inputs.node_vutersao }}
+        node-version: ${{ inputs.node_versao }}
 
     - name: Compila o(s) projeto(s)
       shell: bash

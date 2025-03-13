@@ -21,6 +21,7 @@ runs:
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
       with:
         fallback: 0.0.0
+        workingDirectory: ${{ github.repository }}/build
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
 

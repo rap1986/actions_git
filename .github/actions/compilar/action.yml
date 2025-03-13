@@ -1,0 +1,28 @@
+name: "Build o projeto"
+
+inputs:
+  node_versao:
+    description: Versão do node
+    required: true
+
+runs:      
+  using: "composite"
+  steps:
+    - name: Trocando versão do node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node_vutersao }}
+
+    - name: Build Backend
+      shell: bash
+      run: |
+        cd ./backend 
+        npm install
+        npm run build
+
+    - name: Build Frontend
+      shell: bash
+      run: |
+        cd ./frontend
+        npm install
+        npm run build

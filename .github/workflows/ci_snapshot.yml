@@ -38,16 +38,16 @@ jobs:
         with:
           repository: rap1986/actions_git
           #token: ${{ secrets.PIPELINE_TOKEN }}
-          path: _scripts
+          path: scripts
 
       - name: Lista os arquivos para conferência
         run: |
           ls ${{ github.workspace }}
-          ls ${{ github.workspace }}/_scripts
+          ls ${{ github.workspace }}/scripts
 
       - name: Coleta a próxima versão
         id: versao
-        uses: ./_scripts/.github/actions/proxima_versao
+        uses: ./scripts/.github/actions/proxima_versao
         with:
           tipo_versao: ${{ inputs.tipo_versao }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,31 +58,30 @@ jobs:
     needs: GerarVersao
     if: "${{ inputs.node_versao != '' }}"
     steps:
-      - name: Baixando repositório
+      - name: Baixando o repositório
         uses: actions/checkout@v4
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}/build
-
-      - name: Trocando versão do node
-        uses: actions/setup-node@v4
         with:
-          node-version: ${{ inputs.node_versao }}
+          repository: ${{ github.repository }}
+          path: build
 
-      - name: Build Backend
-        shell: bash
-        run: |
-          cd ./backend 
-          npm install
-          npm run build
+      - name: Baixando o repositório com os scripts
+        uses: actions/checkout@v4
+        with:
+          repository: rap1986/actions_git
+          #token: ${{ secrets.PIPELINE_TOKEN }}
+          path: scripts
 
-      - name: Build Frontend
-        shell: bash
+      - name: Lista os arquivos para conferência
         run: |
-          cd ./frontend
-          npm install
-          npm run build
+          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}/scripts
+
+      - name: Build o projeto
+        id: versao
+        uses: ./scripts/.github/actions/proxima_versao
+        with:
+          node_versao: ${{ inputs.node_versao }}
+          node_artefatos: ${{ inputs.node_artefatos }}
 
       - name: Compacta(Zip) as pastas
         shell: bash

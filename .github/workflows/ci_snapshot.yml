@@ -32,7 +32,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-          path: build
 
       - name: Lista os arquivos para conferência
         run: |
@@ -43,15 +42,15 @@ jobs:
         with:
           repository: rap1986/actions_git
           #token: ${{ secrets.PIPELINE_TOKEN }}
-          path: scripts
+          path: _scripts
 
       - name: Lista os arquivos para conferência
         run: |
-          ls ${{ github.workspace }}/scripts
+          ls ${{ github.workspace }}/_scripts
 
       - name: Coleta a próxima versão
         id: versao
-        uses: ./scripts/.github/actions/proxima_versao
+        uses: ./_scripts/.github/actions/proxima_versao
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
 

@@ -15,9 +15,9 @@ runs:
   steps:
 #    - name: Baixando repositório
 #      uses: actions/checkout@v4
-#    - name: List files in the repository
-#      run: |
-#        ls ${{ github.workspace }}
+    - name: List files in the repository
+      run: |
+        ls ${{ github.workspace }}
 
     - name: Coleta última versão
       id: ultimatag

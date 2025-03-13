@@ -1,6 +1,9 @@
 name: "Gera o número da próxima versão (path, minor, major ou snapshot)"
 
 inputs:
+  tipo_versao:
+    description: Versão do artefato (patch, minor, major, snapshot)
+    required: true
   token:
     description: "Token de acesso ao repositório"
     required: true
@@ -13,13 +16,6 @@ outputs:
 runs:      
   using: "composite"
   steps:
-#    - name: Baixando repositório
-#      uses: actions/checkout@v4
-    - name: List files in the repository
-      shell: sh
-      run: |
-        ls 
-
     - name: Coleta última versão
       id: ultimatag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
@@ -39,7 +35,7 @@ runs:
       shell: sh
       run: |
         versao=$(
-          case "${{ inputs.versao }}" in
+          case "${{ inputs.tipo_versao }}" in
             ("patch") echo "${{ steps.versoes.outputs.patch }}" ;;
             ("minor") echo "${{ steps.versoes.outputs.minor }}" ;;
             ("major") echo "${{ steps.versoes.outputs.major }}" ;;

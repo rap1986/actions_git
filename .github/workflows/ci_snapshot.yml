@@ -71,16 +71,12 @@ jobs:
           #token: ${{ secrets.PIPELINE_TOKEN }}
           path: scripts
 
-      - name: Lista os arquivos para conferência
-        run: |
-          ls ${{ github.workspace }}
-          ls ${{ github.workspace }}/scripts
-
       - name: Build o projeto
         id: versao
         uses: ./scripts/.github/actions/compilar
         with:
           node_versao: ${{ inputs.node_versao }}
+          node_compilar_pastas: ${{ inputs.node_compilar_pastas }}
 
       - name: Compacta(Zip) as pastas
         shell: bash

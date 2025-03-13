@@ -4,6 +4,9 @@ inputs:
   node_versao:
     description: Versão do node
     required: true
+  node_compilar_pastas:
+    type: string
+    description: Pastas do projeto node
 
 runs:      
   using: "composite"
@@ -13,16 +16,13 @@ runs:
       with:
         node-version: ${{ inputs.node_vutersao }}
 
-    - name: Build Backend
+    - name: Compila o(s) projeto(s)
       shell: bash
       run: |
-        cd ./backend 
-        npm install
-        npm run build
-
-    - name: Build Frontend
-      shell: bash
-      run: |
-        cd ./frontend
-        npm install
-        npm run build
+        pastas="${{ inputs.node_compilar_pastas }}"
+        pastas=${pastas//;/ } 
+        for pasta in $pastas ; do 
+          cd ${{ github.workspace }}/build ;
+          npm install
+          npm run build
+        done

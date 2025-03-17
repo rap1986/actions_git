@@ -19,7 +19,7 @@ runs:
       shell: bash
       run: |
         artefato=`echo "${{ inputs.node_artefatos }}" | sed "s/\.\//.\/build\//g"`
-        zip -r artefato.zip -r $artefatos
+        zip -r artefato.zip $artefatos
         ls artefato
 
     - name: Criar Versão / Release e Tag

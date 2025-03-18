@@ -26,8 +26,10 @@ jobs:
     permissions: read-all
     steps:
       - name: Valida versão      
-        if: ${{ inputs.tipo_versao != 'snapshot' }} && ${{ github.ref_name != 'main' }}
-        run: echo "Somente a branch main pode gerar uma versão"
+        if: ${{ (inputs.tipo_versao != 'snapshot') && (github.ref_name != 'main') }}
+        run: |
+          echo "Somente a branch main pode gerar uma versão"
+          exit 1
 
 
   GerarVersao:

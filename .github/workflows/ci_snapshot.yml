@@ -72,15 +72,13 @@ jobs:
           path: scripts
 
       - name: Compila o projeto
-        id: versao
         uses: ./scripts/.github/actions/compilar
         with:
           node_versao: ${{ inputs.node_versao }}
           node_compilar_pastas: ${{ inputs.node_compilar_pastas }}
 
       - name: Subir artefato
-        id: artefato
         uses: ./scripts/.github/actions/subir_artefato
         with:
-          node_artefatos: ${{ inputs.node_artefatos }}
+          node_artefatos: ${{ needs.GerarVersao.outputs.versao }}
           token: ${{ secrets.GITHUB_TOKEN }}

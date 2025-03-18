@@ -41,11 +41,11 @@ runs:
             ("minor") echo "${{ steps.versoes.outputs.minor }}" ;;
             ("major") echo "${{ steps.versoes.outputs.major }}" ;;
             ("replace_last") echo "${{ steps.ultimatag.outputs.tag }}" ;;
-            ("snapshot") echo "${{steps.versoes.outputs.minor }}.snapshot" ;;
-            (*) echo "${{steps.versoes.outputs.minor }}.snapshot" ;;
+            ("snapshot") echo "${{ steps.versoes.outputs.minor }}.${{ github.ref_name }}.snapshot" ;;
+            (*) echo "${{ steps.versoes.outputs.minor }}.snapshot" ;;
           esac)
         echo "--- Versões ---"
-        echo "snapshot=${{steps.versoes.outputs.minor }}.snapshot"
+        echo "snapshot=${{ steps.versoes.outputs.minor }}.snapshot"
         echo "patch=${{ steps.versoes.outputs.patch }}"
         echo "minor=${{ steps.versoes.outputs.minor }}"
         echo "major=${{ steps.versoes.outputs.major }}"

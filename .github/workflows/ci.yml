@@ -21,6 +21,15 @@ permissions:
   contents: write
 
 jobs:
+  PreparaOBuild:
+    runs-on: ubuntu-latest
+    permissions: read-all
+    steps:
+      - name: Valida versão      
+        if: ${{ inputs.tipo_versao != 'snapshot' }} && ${{ github.ref_name != 'main' }}
+        run: echo "Somente a branch main pode gerar uma versão"
+
+
   GerarVersao:
     runs-on: ubuntu-latest
     permissions: read-all
@@ -56,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build ${{ needs.GerarVersao.outputs.versao }}
     permissions: write-all
-    needs: GerarVersao
+    needs: [PreparaOBuild, GerarVersao]
     if: "${{ inputs.node_versao != '' }}"
     steps:
       - name: Baixando o repositório

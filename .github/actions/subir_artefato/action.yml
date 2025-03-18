@@ -20,7 +20,7 @@ runs:
       run: |
         artefatos=`echo "${{ inputs.node_artefatos }}" | sed "s/\.\//.\/build\//g"`
         zip -r artefato.zip $artefatos
-        ls artefato
+        ls artefatos
 
     - name: Criar Versão / Release e Tag
       uses: softprops/action-gh-release@v2
@@ -29,4 +29,4 @@ runs:
       with:
         body: Release ${{ inputs.versao }}
         tag_name: ${{inputs.versao}}
-        files: artefato.zip
+        files: artefatos.zip

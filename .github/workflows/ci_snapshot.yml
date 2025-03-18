@@ -1,5 +1,5 @@
 name: CI - Snapshot
-run-name: CI snapshot disparada por ${{ github.actor }}
+run-name: CI ${{ github.ref_name }} disparada por ${{ github.actor }}
 
 on:
   workflow_call:
@@ -54,6 +54,7 @@ jobs:
 
   Build:
     runs-on: ubuntu-latest
+    name: Build ${{ needs.GerarVersao.outputs.versao }}
     permissions: write-all
     needs: GerarVersao
     if: "${{ inputs.node_versao != '' }}"

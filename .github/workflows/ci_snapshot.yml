@@ -80,5 +80,6 @@ jobs:
       - name: Subir artefato
         uses: ./scripts/.github/actions/subir_artefato
         with:
-          node_artefatos: ${{ needs.GerarVersao.outputs.versao }}
+          node_artefatos: ${{ inputs.node_artefatos }}
+          versao: ${{ needs.GerarVersao.outputs.versao }}
           token: ${{ secrets.GITHUB_TOKEN }}

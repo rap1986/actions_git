@@ -26,3 +26,8 @@ runs:
           npm ci ;
           npm run test:cov;
         done
+    - name: Subir Pasta de Cobertura
+      uses: actions/upload-artifact@v4
+      with:
+        name: backend
+        path: ${{ github.workspace }}/build/$pasta/coverage

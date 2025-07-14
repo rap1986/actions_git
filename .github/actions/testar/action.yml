@@ -23,6 +23,6 @@ runs:
         pastas=${pastas//;/ } 
         for pasta in $pastas ; do 
           cd ${{ github.workspace }}/build/$pasta ;
-          npm ci;
+          npm ci ;
           npm run test:cov;
         done

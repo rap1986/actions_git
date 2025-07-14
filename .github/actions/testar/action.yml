@@ -1,0 +1,28 @@
+name: "Testar o(s) projeto(s)"
+
+inputs:
+  node_versao:
+    description: Versão do node
+    required: true
+  node_compilar_pastas:
+    type: string
+    description: Pastas do projeto node
+
+runs:      
+  using: "composite"
+  steps:
+    - name: Trocando versão do node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node_versao }}
+
+    - name: Testa o(s) projeto(s)
+      shell: bash
+      run: |
+        pastas="${{ inputs.node_compilar_pastas }}"
+        pastas=${pastas//;/ } 
+        for pasta in $pastas ; do 
+          cd ${{ github.workspace }}/build/$pasta ;
+          npm install ;
+          npm test:cov;
+        done

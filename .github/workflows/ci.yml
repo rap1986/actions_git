@@ -63,6 +63,30 @@ jobs:
           tipo_versao: ${{ inputs.tipo_versao }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
+  Testar:
+    runs-on: ubuntu-latest
+    permissions: read-all
+    needs: [PreparaOBuild, GerarVersao]
+    steps:
+      - name: Baixando o repositório
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: build
+
+      - name: Baixando o repositório com os scripts
+        uses: actions/checkout@v4
+        with:
+          repository: rap1986/actions_git
+          #token: ${{ secrets.PIPELINE_TOKEN }}
+          path: scripts
+
+      - name: Testa o(s) projeto(s)
+        uses: ./scripts/.github/actions/testar
+        with:
+          node_versao: ${{ inputs.node_versao }}
+          node_compilar_pastas: ${{ inputs.node_compilar_pastas }}
+          
   Build:
     runs-on: ubuntu-latest
     name: Build ${{ needs.GerarVersao.outputs.versao }}

@@ -16,6 +16,27 @@ runs:
       with:
         node-version: ${{ inputs.node_versao }}
 
+    - name: Cache Node.js modules
+      id: cache-dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          **/node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Instala as dependências (se não tiver cache)
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      shell: bash
+      run:  |
+        pastas="${{ inputs.node_compilar_pastas }}"
+        pastas=${pastas//;/ } 
+        for pasta in $pastas ; do 
+          cd ${{ github.workspace }}/build/$pasta ;
+          npm ci ;
+        done
+
     - name: Testa o(s) projeto(s)
       shell: bash
       run: |
@@ -23,9 +44,9 @@ runs:
         pastas=${pastas//;/ } 
         for pasta in $pastas ; do 
           cd ${{ github.workspace }}/build/$pasta ;
-          npm ci ;
           npm run test:cov;
         done
+
     - name: Subir Pasta de Cobertura
       uses: actions/upload-artifact@v4
       with:

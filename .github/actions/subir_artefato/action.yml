@@ -21,6 +21,12 @@ runs:
         artefatos=`echo "${{ inputs.node_artefatos }}" | sed "s/\.\//.\/build\//g"`
         zip -r artefatos.zip $artefatos
 
+    - name: Subir artefatos
+      uses: actions/upload-artifact@v4
+      with:
+        name: artefatos
+        path: artefatos.zip
+
     - name: Criar Versão / Release e Tag
       uses: softprops/action-gh-release@v2
       env:

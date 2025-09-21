@@ -25,12 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions: read-all
     steps:
-      - name: Valida versão      
+      - name: Valida versão
         if: ${{ (inputs.tipo_versao != 'snapshot') && (github.ref_name != 'main') }}
         run: |
           echo "Somente a branch main pode gerar uma versão"
           exit 1
-
 
   GerarVersao:
     runs-on: ubuntu-latest
@@ -86,8 +85,8 @@ jobs:
         with:
           node_versao: ${{ inputs.node_versao }}
           node_compilar_pastas: ${{ inputs.node_compilar_pastas }}
-          
-  Build:
+
+  Compilar:
     runs-on: ubuntu-latest
     name: Build ${{ needs.GerarVersao.outputs.versao }}
     permissions: write-all
@@ -117,5 +116,17 @@ jobs:
         uses: ./scripts/.github/actions/subir_artefato
         with:
           node_artefatos: ${{ inputs.node_artefatos }}
+          versao: ${{ needs.GerarVersao.outputs.versao }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  CrarReleaseTag:
+    runs-on: ubuntu-latest
+    name: Release ${{ needs.GerarVersao.outputs.versao }}
+    permissions: write-all
+    needs: [GerarVersao, Testar, Compilar]
+    steps:
+      - name: Subir artefato
+        uses: ./scripts/.github/actions/criar_versao
+        with:
           versao: ${{ needs.GerarVersao.outputs.versao }}
           token: ${{ secrets.GITHUB_TOKEN }}

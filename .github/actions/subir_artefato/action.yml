@@ -27,11 +27,11 @@ runs:
         name: artefatos
         path: artefatos.zip
 
-    - name: Criar Versão / Release e Tag
-      uses: softprops/action-gh-release@v2
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
-      with:
-        body: Release ${{ inputs.versao }}
-        tag_name: ${{inputs.versao}}
-        files: artefatos.zip
+#    - name: Criar Versão / Release e Tag
+#      uses: softprops/action-gh-release@v2
+#      env:
+#        GITHUB_TOKEN: ${{ inputs.token }}
+#      with:
+#        body: Release ${{ inputs.versao }}
+#        tag_name: ${{inputs.versao}}
+#        files: artefatos.zip

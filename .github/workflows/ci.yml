@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: read-all
     needs: [Testar]
-    if: "${{ inputs.SonarQube != '' }}"
+    if: "${{ secrets.SonarQube != '' }}"
     steps:
       - name: Baixando o repositório
         uses: actions/checkout@v4
@@ -103,7 +103,7 @@ jobs:
       - name: SonarQube
         uses: ./scripts/.github/actions/externo/sonar
         with:
-          SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   Compilar:
     runs-on: ubuntu-latest

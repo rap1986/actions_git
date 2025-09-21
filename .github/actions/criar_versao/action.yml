@@ -16,7 +16,6 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: artefatos
-        path: artefatos.zip
 
     - name: Criar Versão / Release e Tag
       uses: softprops/action-gh-release@v2
@@ -25,4 +24,5 @@ runs:
       with:
         body: Release ${{ inputs.versao }}
         tag_name: ${{inputs.versao}}
+        fail_on_unmatched_files: true
         files: artefatos.zip

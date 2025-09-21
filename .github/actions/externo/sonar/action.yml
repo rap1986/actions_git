@@ -1,0 +1,23 @@
+name: SonarQube
+
+inputs:
+  SONAR_TOKEN:
+    required: true
+
+runs:      
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 
+
+    - name: Baixar Pasta de Cobertura
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage
+        path: ${{ github.workspace }}/build/**/coverage
+
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@v5
+      env:
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}

@@ -16,6 +16,8 @@ on:
       node_artefatos:
         type: string
         description: Arquivos/Artefatos da versão final
+      SONAR_TOKEN:
+        type: string
 
 permissions:
   contents: write
@@ -85,6 +87,23 @@ jobs:
         with:
           node_versao: ${{ inputs.node_versao }}
           node_compilar_pastas: ${{ inputs.node_compilar_pastas }}
+
+  SonarQube:
+    runs-on: ubuntu-latest
+    permissions: read-all
+    needs: [Testar]
+    if: "${{ inputs.SonarQube != '' }}"
+    steps:
+      - name: Baixando o repositório
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: build
+
+      - name: SonarQube
+        uses: ./scripts/.github/actions/externo/sonar
+        with:
+          SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
 
   Compilar:
     runs-on: ubuntu-latest

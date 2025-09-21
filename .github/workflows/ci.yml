@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: read-all
     needs: [Testar]
-    if: "${{ secrets.SonarQube != '' }}"
+    if: "${{ secrets.SONAR_TOKEN != '' }}"
     steps:
       - name: Baixando o repositório
         uses: actions/checkout@v4

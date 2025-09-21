@@ -99,6 +99,13 @@ jobs:
           repository: ${{ github.repository }}
           path: build
 
+      - name: Baixando o repositório com os scripts
+        uses: actions/checkout@v4
+        with:
+          repository: rap1986/actions_git
+          #token: ${{ secrets.PIPELINE_TOKEN }}
+          path: scripts
+
       - name: SonarQube
         uses: ./scripts/.github/actions/externo/sonar
         with:

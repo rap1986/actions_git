@@ -28,6 +28,7 @@ runs:
 
     - name: Instala as dependências (se não tiver cache)
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      shell: bash
       run:  |
         pastas="${{ inputs.node_compilar_pastas }}"
         pastas=${pastas//;/ } 

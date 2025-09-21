@@ -125,6 +125,13 @@ jobs:
     permissions: write-all
     needs: [GerarVersao, Testar, Compilar]
     steps:
+      - name: Baixando o repositório com os scripts
+        uses: actions/checkout@v4
+        with:
+          repository: rap1986/actions_git
+          #token: ${{ secrets.PIPELINE_TOKEN }}
+          path: scripts
+
       - name: Subir artefato
         uses: ./scripts/.github/actions/criar_versao
         with:

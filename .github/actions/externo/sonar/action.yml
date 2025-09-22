@@ -19,6 +19,17 @@ runs:
         name: coverage
         path: ${{ github.workspace }}/build/**/coverage
 
+    - name: Converter node pastas para matrix
+      id: node-pasta-matrix
+      shell: bash
+      run: |
+        echo "123:\n"
+        ls ${{ github.workspace }}
+        echo "456:\n"
+        ls ${{ github.workspace }}/build
+        echo "789:\n"
+        ls ${{ github.workspace }}/build/${{ inputs.pasta }}
+
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v5
       with:

@@ -101,7 +101,7 @@ jobs:
   SonarQube:
     runs-on: ubuntu-latest
     permissions: read-all
-    needs: [Testar]
+    needs: [PreparaOBuild,Testar]
     strategy:
       matrix:
         #pasta: ${{ fromJson(format('["{0}"]', replace(inputs.node_compilar_pastas, ',', '","'))) }}

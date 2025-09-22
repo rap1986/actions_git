@@ -110,6 +110,7 @@ jobs:
         with:
           repository: ${{ github.repository }}
           path: build
+          fetch-depth: 0 
 
       - name: Baixando o repositório com os scripts
         uses: actions/checkout@v4
@@ -120,7 +121,7 @@ jobs:
       - name: SonarQube
         uses: ./scripts/.github/actions/externo/sonar
         with:
-          pasta: ${{ matrix.pasta }}
+          pasta: build/${{ matrix.pasta }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   Compilar:

@@ -17,7 +17,6 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: coverage
-        path: ${{ github.workspace }}/build/**/coverage
 
     - name: Converter node pastas para matrix
       id: node-pasta-matrix

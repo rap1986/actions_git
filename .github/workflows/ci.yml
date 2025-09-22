@@ -26,12 +26,22 @@ jobs:
   PreparaOBuild:
     runs-on: ubuntu-latest
     permissions: read-all
+    outputs:
+      node_compilar_pastas_mt: ${{ steps.node-pasta-matrix.outputs.pastas_mt }}
     steps:
       - name: Valida versão
         if: ${{ (inputs.tipo_versao != 'snapshot') && (github.ref_name != 'main') }}
         run: |
           echo "Somente a branch main pode gerar uma versão"
           exit 1
+
+      - name: Converter node pastas para matrix
+      - id: node-pasta-matrix
+        run: |
+          pastas="${{ inputs.node_compilar_pastas }}"
+          pastas_mt=$(echo "$pastas" | jq -R 'split(";")')
+          echo "pastas_mt=$pastas_mt"
+          echo "pastas_mt=$pastas_mt" >> $GITHUB_OUTPUT
 
   GerarVersao:
     runs-on: ubuntu-latest
@@ -94,7 +104,8 @@ jobs:
     needs: [Testar]
     strategy:
       matrix:
-        pasta: ${{ fromJson(format('["{0}"]', replace(inputs.node_compilar_pastas, ',', '","'))) }}
+        #pasta: ${{ fromJson(format('["{0}"]', replace(inputs.node_compilar_pastas, ',', '","'))) }}
+        pasta: ${{ fromJSON(needs.PreparaOBuild.outputs.node_compilar_pastas_mt) }}
       fail-fast: false
     steps:
       - name: Baixando o repositório

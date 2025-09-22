@@ -121,6 +121,22 @@ jobs:
           #token: ${{ secrets.PIPELINE_TOKEN }}
           path: scripts
 
+      - name: Converter node pastas para matrix
+        id: node-pasta-matrix
+        shell: bash
+        run: |
+          echo "123:\n"
+          ls ${{ github.workspace }}
+          echo "456:\n"
+          ls ${{ github.workspace }}/build
+          echo "789:\n"
+          ls ${{ github.workspace }}/build/${{ matrix.pasta }}
+          echo "qwe:\n"
+          ls build/${{ matrix.pasta }}
+          echo "qwe:\n"
+          ls ${{ matrix.pasta }}
+
+
       - name: SonarQube
         uses: ./scripts/.github/actions/externo/sonar
         with:

@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
           pastas="${{ inputs.node_compilar_pastas }}"
-          pastas_mt=$(echo "$pastas" | jq -R 'split(";")')
+          pastas_mt=$(echo "$pastas" | jq -R -c 'split(";")')
           echo "pastas_mt=$pastas_mt"
           echo "pastas_mt=$pastas_mt" >> $GITHUB_OUTPUT
 

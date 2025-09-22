@@ -124,7 +124,7 @@ jobs:
       - name: SonarQube
         uses: ./scripts/.github/actions/externo/sonar
         with:
-          pasta: build/${{ matrix.pasta }}
+          pasta: ${{ github.workspace }}/build/${{ matrix.pasta }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   Compilar:

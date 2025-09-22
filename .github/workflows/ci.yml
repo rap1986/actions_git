@@ -92,6 +92,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions: read-all
     needs: [Testar]
+    strategy:
+      matrix:
+        pasta: ${{ fromJson(format('["{0}"]', replace(inputs.node_compilar_pastas, ',', '","'))) }}
+      fail-fast: false
     steps:
       - name: Baixando o repositório
         uses: actions/checkout@v4
@@ -109,6 +113,7 @@ jobs:
       - name: SonarQube
         uses: ./scripts/.github/actions/externo/sonar
         with:
+          pasta: ${{ matrix.pasta }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   Compilar:

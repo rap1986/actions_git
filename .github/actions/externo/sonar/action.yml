@@ -1,6 +1,8 @@
 name: SonarQube
 
 inputs:
+  pasta:
+    required: true
   SONAR_TOKEN:
     required: true
 
@@ -19,5 +21,7 @@ runs:
 
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v5
+      with:
+        projectBaseDir: ${{ inputs.pasta }}/
       env:
         SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}

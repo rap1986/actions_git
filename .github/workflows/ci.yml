@@ -131,16 +131,11 @@ jobs:
           ls ${{ github.workspace }}/build
           echo "789:\n"
           ls ${{ github.workspace }}/build/${{ matrix.pasta }}
-          echo "qwe:\n"
-          ls build/${{ matrix.pasta }}
-          echo "qwe:\n"
-          ls ${{ matrix.pasta }}
-
 
       - name: SonarQube
         uses: ./scripts/.github/actions/externo/sonar
         with:
-          pasta: ${{ github.workspace }}/build/${{ matrix.pasta }}
+          pasta: ${{ matrix.pasta }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   Compilar:

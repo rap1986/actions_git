@@ -22,12 +22,11 @@ runs:
       id: node-pasta-matrix
       shell: bash
       run: |
+        pwd
         echo "123:\n"
         ls ${{ github.workspace }}
         echo "456:\n"
-        ls ${{ github.workspace }}/build
-        echo "789:\n"
-        ls ${{ github.workspace }}/build/${{ inputs.pasta }}
+        ls ${{ github.workspace }}/${{ inputs.pasta }}
 
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v5

@@ -34,9 +34,9 @@ jobs:
         run: |
           echo "Somente a branch main pode gerar uma versão"
           exit 1
-
       - name: Converter node pastas para matrix
-      - id: node-pasta-matrix
+        id: node-pasta-matrix
+        shell: bash
         run: |
           pastas="${{ inputs.node_compilar_pastas }}"
           pastas_mt=$(echo "$pastas" | jq -R 'split(";")')
